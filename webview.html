@@ -17,8 +17,6 @@
           let intOut = 0;
           let intIn = 0;
           let htmlRows = "";
-          //htmlRows += "
-          < table > ";
           list.forEach(function(entity) {
             if (entity.inOut === "Out") {
               intOut += Number(entity.quantity);
@@ -26,7 +24,6 @@
               intIn += Number(entity.quantity);
             }
           });
-          //htmlRows += "</table>";
           htmlRows += `
 				Tong nhap: ${intIn} 
 			<br/>
@@ -99,3 +96,4 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
+
