@@ -1,71 +1,101 @@
 <html>
-<head>
+  <head>
     <script>
-        function sendRow(id) {
-          if (window.AndroidInterface) {
-            window.AndroidInterface.sendRowId(id);
-          }
+      function sendRow(id) {
+        if (window.AndroidInterface) {
+          window.AndroidInterface.sendRowId(id);
         }
-        function receiveTable(tableContent) {
-          document.getElementById("infoListContainer").innerHTML = tableContent;
+      }
+
+      function receiveTable(tableContent) {
+        document.getElementById("infoListContainer").innerHTML = tableContent;
+      }
+
+      function receiveReport(jsonData) {
+        try {
+          const list = JSON.parse(jsonData);
+          let intOut = 0;
+          let intIn = 0;
+          let htmlRows = "";
+          //htmlRows += "
+          < table > ";
+          list.forEach(function(entity) {
+            if (entity.inOut === "Out") {
+              intOut += Number(entity.quantity);
+            } else if (entity.inOut === "Out") {
+              intIn += Number(entity.quantity);
+            }
+          });
+          //htmlRows += "</table>";
+          htmlRows += `
+				Tong nhap: ${intIn} 
+			<br/>
+                Tong xuat: ${intOut} 
+			<br/>
+            `;
+          document.getElementById("reportContainer").innerHTML = htmlRows;
+        } catch (e) {
+          console.error("Lỗi: ", e);
         }
-        function receiveReport(tableContent) {
-          document.getElementById("reportContainer").innerHTML = tableContent;
-        }
+      }
     </script>
     <style>
-        table, tr,th,td {
-          border: 1px solid black;
-          border-collapse: collapse;
-          font-size: 11pt;
-        }
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        font-size: 11pt;
+      }
 
-        tr:nth-child(even) {
-          background-color: #FFFFDA;
-        }
+      tr:nth-child(even) {
+        background-color: #FFFFDA;
+      }
 
-        tr:nth-child(odd) {
-          background-color: #EBFDEF;
-        }
+      tr:nth-child(odd) {
+        background-color: #EBFDEF;
+      }
 
-        tr:active {
-          border: 2px solid #AAAAAA;
-        }
+      tr:active {
+        border: 2px solid #AAAAAA;
+      }
 
-        tr:hover {
-          border: 1px solid black;
-        }
+      tr:hover {
+        border: 1px solid black;
+      }
 
-        td:nth-child(even) {
-          background-color: rgba(216, 218, 253, 0.5);
-        }
+      td:nth-child(even) {
+        background-color: rgba(216, 218, 253, 0.5);
+      }
 
-        .title{
-          background-color: #888888;
-          border: 1px solid black;
-        }
-        .sticky-header {
-          position: sticky;
-          top: 0;
-          z-index: 10;
-          background-color: #888888;
-        }
+      .title {
+        background-color: #888888;
+        border: 1px solid black;
+      }
 
-        .align-left {
-          text-align: left;
-        }
+      .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #888888;
+      }
 
-        .align-right {
-          text-align: right;
-        }
+      .align-left {
+        text-align: left;
+      }
 
-        .align-center {
-          text-align: center;
-        }
+      .align-right {
+        text-align: right;
+      }
+
+      .align-center {
+        text-align: center;
+      }
     </style>
-</head>
-<body>
-<div id="reportContainer"></div>
-<div id="infoListContainer"></div>
-</body>
+  </head>
+  <body>
+    <div id="reportContainer"></div>
+    <div id="infoListContainer"></div>
+  </body>
 </html>
