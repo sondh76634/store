@@ -1,0 +1,71 @@
+<html>
+<head>
+    <script>
+        function sendRow(id) {
+          if (window.AndroidInterface) {
+            window.AndroidInterface.sendRowId(id);
+          }
+        }
+        function receiveTable(tableContent) {
+          document.getElementById("infoListContainer").innerHTML = tableContent;
+        }
+        function receiveReport(tableContent) {
+          document.getElementById("reportContainer").innerHTML = tableContent;
+        }
+    </script>
+    <style>
+        table, tr,th,td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          font-size: 11pt;
+        }
+
+        tr:nth-child(even) {
+          background-color: #FFFFDA;
+        }
+
+        tr:nth-child(odd) {
+          background-color: #EBFDEF;
+        }
+
+        tr:active {
+          border: 2px solid #AAAAAA;
+        }
+
+        tr:hover {
+          border: 1px solid black;
+        }
+
+        td:nth-child(even) {
+          background-color: rgba(216, 218, 253, 0.5);
+        }
+
+        .title{
+          background-color: #888888;
+          border: 1px solid black;
+        }
+        .sticky-header {
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          background-color: #888888;
+        }
+
+        .align-left {
+          text-align: left;
+        }
+
+        .align-right {
+          text-align: right;
+        }
+
+        .align-center {
+          text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="reportContainer"></div>
+<div id="infoListContainer"></div>
+</body>
+</html>
