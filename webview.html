@@ -20,7 +20,7 @@
           list.forEach(function(entity) {
             if (entity.inOut === "Out") {
               intOut += Number(entity.quantity);
-            } else if (entity.inOut === "Out") {
+            } else if (entity.inOut === "In") {
               intIn += Number(entity.quantity);
             }
           });
@@ -96,4 +96,5 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
+
 
