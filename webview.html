@@ -65,6 +65,7 @@
                 if (catalogName === entity.catalogName && ordersType === entity.inOut) {
                   sLuong += Number(entity.quantity);
                   sTien += Number(entity.quantity) * Number(entity.price);
+					selectedList.push(entity);
                 }
               }
             });
@@ -192,3 +193,4 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
+
