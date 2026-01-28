@@ -69,14 +69,16 @@
                 }
               }
             });
-            htmlRows += `
-			
+			let trList = sumReport(jsonData);
+            htmlRows = `
+			<table>
 			<tr>
-				<td> ${catalogName}</td>
-				<td> ${ordersType}</td>
-				<td> ${sLuong}</td>
-				<td> ${sTien}</td>
-			</tr>
+					<th>Tên hàng</th>
+					<th>Loại đơn</th>
+					<th>Số lượng</th>
+					<th>Số tiền</th>
+				</tr>
+			${trList}
 		  `;
           }
 		  htmlRows +=`
@@ -114,6 +116,7 @@
                 if (catalogName === entity.catalogName && ordersType === entity.inOut) {
                   sLuong += Number(entity.quantity);
                   sTien += Number(entity.quantity) * Number(entity.price);
+				  selectedList.push(entity);
                 }
               }
             });
@@ -193,4 +196,3 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
-
