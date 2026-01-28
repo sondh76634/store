@@ -16,8 +16,7 @@
         try {
           let trList = sumReport(jsonData);
           htmlRows = `
-				
-			
+              
 			<table>
 				<tr>
 					<th class='title'>Tên hàng</th>
@@ -25,11 +24,10 @@
 					<th class='title'>Số lượng</th>
 					<th class='title'>Số tiền</th>
 				</tr>
-			${trList}
-			
-			
+              ${trList}
+              
 			</table>
-		  `;
+            `;
           document.getElementById("reportContainer").innerHTML = htmlRows;
         } catch (e) {
           console.error("Lỗi: ", e);
@@ -54,6 +52,24 @@
 			</table>
             `;
           document.getElementById("reportContainer").innerHTML = htmlRows;
+        } catch (e) {
+          console.error("Lỗi: ", e);
+        }
+      }
+
+      function receiveRptThree(jsonData) {
+        //Kho phân summary report
+        try {
+          receiveReport(jsonData);
+        } catch (e) {
+          console.error("Lỗi: ", e);
+        }
+      }
+
+      function receiveRptFour(jsonData) {
+        //Kho tạp hóa summary report
+        try {
+          receiveReport(jsonData);
         } catch (e) {
           console.error("Lỗi: ", e);
         }
@@ -90,15 +106,15 @@
             if (execFlag === true) {
               sTien *= 1000;
               trList += `
-				
-			
+
+              
 			<tr>
 				<td> ${catalogName}</td>
 				<td> ${ordersType}</td>
 				<td> ${sLuong}</td>
 				<td> ${sTien.toLocaleString()}</td>
 			</tr>
-		  `;
+            `;
             }
           }
         } catch (e) {
