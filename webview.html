@@ -13,43 +13,88 @@
 
       function receiveReport(jsonData) {
         //Kho ruou summary report
-		try {
+        try {
           const list = JSON.parse(jsonData);
           let lvnSlIn = 0;
-		  let lvnStIn = 0;
-		  let lvnSlOut = 0;
+          let lvnStIn = 0;
+          let lvnSlOut = 0;
           let lvnStOut = 0;
           list.forEach(function(entity) {
             if (entity.inOut === "Out") {
               lvnSlOut += Number(entity.quantity);
-			  lvnStOut += Number(entity.quantity) * Number(entity.price);
+              lvnStOut += Number(entity.quantity) * Number(entity.price);
             } else if (entity.inOut === "In") {
               lvnSlIn += Number(entity.quantity);
-			  lvnStIn += Number(entity.quantity) * Number(entity.price);
+              lvnStIn += Number(entity.quantity) * Number(entity.price);
             }
           });
-		  lvnStOut *= 1000;
-		  lvnStIn *= 1000;
-		  let lvsSlIn = lvnSlIn.toLocaleString();
-		  let lvsStIn = lvnStIn.toLocaleString();
-		  let lvsSlOut = lvnSlOut.toLocaleString();
-		  let lvsStOut = lvnStOut.toLocaleString();
+          lvnStOut *= 1000;
+          lvnStIn *= 1000;
+          let lvsSlIn = lvnSlIn.toLocaleString();
+          let lvsStIn = lvnStIn.toLocaleString();
+          let lvsSlOut = lvnSlOut.toLocaleString();
+          let lvsStOut = lvnStOut.toLocaleString();
+          let lvsTrList = sumReport(jsonData);
           let htmlRows = `
+			
 			<table>
 				<tr>
-					<td><b>Tổng nhập :</b> ${lvsSlIn}</td>
-					<td><b>Số tiền :</b> ${lvsStIn}</td>
+					<th>Tên hàng</th>
+					<th>Loại đơn</th>
+					<th>Số lượng</th>
+					<th>Số tiền</th>
 				</tr>
-				<tr>
-					<td><b>Tổng xuất :</b> ${lvsSlOut}</td>
-					<td><b>Số tiền :</b> ${lvsStOut}</td>
-				</tr>
+				${lvsTrList}
+			
 			</table>
             `;
           document.getElementById("reportContainer").innerHTML = htmlRows;
         } catch (e) {
           console.error("Lỗi: ", e);
         }
+      }
+
+      function sumReport(jsonData) {
+        //Tong hop so lieu
+        let trList = "";
+        try {
+          const origList = JSON.parse(jsonData);
+          let selectedList = [];
+          let execFlag = true;
+          while (execFlag) {
+            execFlag = false;
+            let catalogName = "";
+            let ordersType = "";
+            let sLuong = 0;
+            let sTien = 0;
+            origList.forEach(function(entity) {
+              const isSelected = selectedList.some(item => item.id === entity.id);
+              if (!isSelected) {
+                if (execFlag === false) {
+                  catalogName = entity.catalogName;
+                  ordersType = entity.inOut;
+                  execFlag = true;
+                }
+                if (catalogName === entity.catalogName && ordersType === entity.inOut) {
+                  sLuong += Number(entity.quantity);
+                  sTien += Number(entity.quantity) * Number(entity.price);
+                }
+              }
+            });
+            trList += `
+			
+			<tr>
+				<td> ${catalogName}</td>
+				<td> ${ordersType}</td>
+				<td> ${sLuong}</td>
+				<td> ${sTien}</td>
+			</tr>
+		  `;
+          }
+        } catch (e) {
+          console.error("Lỗi: ", e);
+        }
+        return trList;
       }
     </script>
     <style>
@@ -112,4 +157,3 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
-
