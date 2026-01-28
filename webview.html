@@ -17,6 +17,7 @@
           let trList = sumReport(jsonData);
           htmlRows = `
 				
+			
 			<table>
 				<tr>
 					<th class='title'>Tên hàng</th>
@@ -26,8 +27,32 @@
 				</tr>
 			${trList}
 			
+			
 			</table>
 		  `;
+          document.getElementById("reportContainer").innerHTML = htmlRows;
+        } catch (e) {
+          console.error("Lỗi: ", e);
+        }
+      }
+
+      function receiveMoney(jsonData) {
+        //Kho bac summary report
+        try {
+          let trList = sumReport(jsonData);
+          htmlRows = `
+              
+			<table>
+				<tr>
+					<th class='title'>Tên hàng</th>
+					<th class='title'>Loại đơn</th>
+					<th class='title'>Số lượng</th>
+					<th class='title'>Số tiền</th>
+				</tr>
+              ${trList}
+              
+			</table>
+            `;
           document.getElementById("reportContainer").innerHTML = htmlRows;
         } catch (e) {
           console.error("Lỗi: ", e);
@@ -66,6 +91,7 @@
               sTien *= 1000;
               trList += `
 				
+			
 			<tr>
 				<td> ${catalogName}</td>
 				<td> ${ordersType}</td>
@@ -141,4 +167,3 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
-
