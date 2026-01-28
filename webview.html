@@ -34,11 +34,12 @@
           let lvsStIn = lvnStIn.toLocaleString();
           let lvsSlOut = lvnSlOut.toLocaleString();
           let lvsStOut = lvnStOut.toLocaleString();
-		  ///-------------
-		  const origList = JSON.parse(jsonData);
+          ///-------------
+          const origList = JSON.parse(jsonData);
           let selectedList = [];
           let execFlag = true;
-		  let htmlRows = `
+          let htmlRows = `
+			
 			
 			<table>
 				<tr>
@@ -65,27 +66,28 @@
                 if (catalogName === entity.catalogName && ordersType === entity.inOut) {
                   sLuong += Number(entity.quantity);
                   sTien += Number(entity.quantity) * Number(entity.price);
-					selectedList.push(entity);
+                  selectedList.push(entity);
                 }
               }
             });
-			let trList = sumReport(jsonData);
+            let trList = sumReport(jsonData);
             htmlRows = `
-			<table>
-			<tr>
-					<th>Tên hàng</th>
-					<th>Loại đơn</th>
-					<th>Số lượng</th>
-					<th>Số tiền</th>
-				</tr>
+			
+				<table>
+					<tr>
+						<th>Tên hàng</th>
+						<th>Loại đơn</th>
+						<th>Số lượng</th>
+						<th>Số tiền</th>
+					</tr>
 			${trList}
 		  `;
           }
-		  htmlRows +=`
-		  </table>
-		  `;
-		  ///----------------
+          htmlRows += `
 		  
+				</table>
+		  `;
+          ///----------------
           document.getElementById("reportContainer").innerHTML = htmlRows;
         } catch (e) {
           console.error("Lỗi: ", e);
@@ -116,19 +118,21 @@
                 if (catalogName === entity.catalogName && ordersType === entity.inOut) {
                   sLuong += Number(entity.quantity);
                   sTien += Number(entity.quantity) * Number(entity.price);
-				  selectedList.push(entity);
+                  selectedList.push(entity);
                 }
               }
             });
-            trList += `
+            if (execFlag) {
+              trList += `
 			
-			<tr>
-				<td> ${catalogName}</td>
-				<td> ${ordersType}</td>
-				<td> ${sLuong}</td>
-				<td> ${sTien}</td>
-			</tr>
+				<tr>
+					<td> ${catalogName}</td>
+					<td> ${ordersType}</td>
+					<td> ${sLuong}</td>
+					<td> ${sTien}</td>
+				</tr>
 		  `;
+            }
           }
         } catch (e) {
           console.error("Lỗi: ", e);
