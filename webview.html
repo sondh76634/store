@@ -122,14 +122,14 @@
                 }
               }
             });
-            if (execFlag) {
+            if (execFlag === true) {
+				sTien *= 1000;
               trList += `
-			
 				<tr>
 					<td> ${catalogName}</td>
 					<td> ${ordersType}</td>
 					<td> ${sLuong}</td>
-					<td> ${sTien}</td>
+					<td> ${(sTien * 1000).toLocaleString()}</td>
 				</tr>
 		  `;
             }
@@ -200,3 +200,4 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
+
