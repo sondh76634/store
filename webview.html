@@ -12,23 +12,39 @@
       }
 
       function receiveReport(jsonData) {
-        try {
+        //Kho ruou summary report
+		try {
           const list = JSON.parse(jsonData);
-          let intOut = 0;
-          let intIn = 0;
-          let htmlRows = "";
+          let lvnSlIn = 0;
+		  let lvnStIn = 0;
+		  let lvnSlOut = 0;
+          let lvnStOut = 0;
           list.forEach(function(entity) {
             if (entity.inOut === "Out") {
-              intOut += Number(entity.quantity);
+              lvnSlOut += Number(entity.quantity);
+			  lvnStOut += Number(entity.quantity) * Number(entity.price);
             } else if (entity.inOut === "In") {
-              intIn += Number(entity.quantity);
+              lvnSlIn += Number(entity.quantity);
+			  lvnStIn += Number(entity.quantity) * Number(entity.price);
             }
           });
-          htmlRows += `
-				Tong nhap: ${intIn} 
-			<br/>
-                Tong xuat: ${intOut} 
-			<br/>
+		  lvnStOut *= 1000;
+		  lvnStIn *= 1000;
+		  let lvsSlIn = lvnSlIn.toLocaleString();
+		  let lvsStIn = lvnStIn.toLocaleString();
+		  let lvsSlOut = lvnSlOut.toLocaleString();
+		  let lvsStOut = lvnStOut.toLocaleString();
+          let htmlRows = `
+			<table>
+				<tr>
+					<td><b>Tổng nhập :</b> ${lvsSlIn}</td>
+					<td><b>Số tiền :</b> ${lvsStIn}</td>
+				</tr>
+				<tr>
+					<td><b>Tổng xuất :</b> ${lvsSlOut}</td>
+					<td><b>Số tiền :</b> ${lvsStOut}</td>
+				</tr>
+			</table>
             `;
           document.getElementById("reportContainer").innerHTML = htmlRows;
         } catch (e) {
@@ -96,5 +112,4 @@
     <div id="infoListContainer"></div>
   </body>
 </html>
-
 
