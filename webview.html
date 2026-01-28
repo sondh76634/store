@@ -34,8 +34,11 @@
           let lvsStIn = lvnStIn.toLocaleString();
           let lvsSlOut = lvnSlOut.toLocaleString();
           let lvsStOut = lvnStOut.toLocaleString();
-          let lvsTrList = sumReport(jsonData);
-          let htmlRows = `
+		  ///-------------
+		  const origList = JSON.parse(jsonData);
+          let selectedList = [];
+          let execFlag = true;
+		  let htmlRows = `
 			
 			<table>
 				<tr>
@@ -44,10 +47,42 @@
 					<th>Số lượng</th>
 					<th>Số tiền</th>
 				</tr>
-				${lvsTrList}
+				`;
+          while (execFlag) {
+            execFlag = false;
+            let catalogName = "";
+            let ordersType = "";
+            let sLuong = 0;
+            let sTien = 0;
+            origList.forEach(function(entity) {
+              const isSelected = selectedList.some(item => item.id === entity.id);
+              if (!isSelected) {
+                if (execFlag === false) {
+                  catalogName = entity.catalogName;
+                  ordersType = entity.inOut;
+                  execFlag = true;
+                }
+                if (catalogName === entity.catalogName && ordersType === entity.inOut) {
+                  sLuong += Number(entity.quantity);
+                  sTien += Number(entity.quantity) * Number(entity.price);
+                }
+              }
+            });
+            htmlRows += `
 			
-			</table>
-            `;
+			<tr>
+				<td> ${catalogName}</td>
+				<td> ${ordersType}</td>
+				<td> ${sLuong}</td>
+				<td> ${sTien}</td>
+			</tr>
+		  `;
+          }
+		  htmlRows +=`
+		  </table>
+		  `;
+		  ///----------------
+		  
           document.getElementById("reportContainer").innerHTML = htmlRows;
         } catch (e) {
           console.error("Lỗi: ", e);
